@@ -1,0 +1,94 @@
+﻿@model WORKFLOW.Models.Loginmodel
+
+@{
+    ViewBag.Title = "Login";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Login</title>
+    <style>
+        body {
+            background-color: blue;
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 25vh;
+        }
+
+        form {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            max-width: 400px;
+            width: 100%;
+        }
+
+        h2 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .password-container {
+            position: relative;
+        }
+
+        .password-toggle {
+           
+            top: 50%;
+            right: -5px;
+            transform: translateY(-50%);
+            cursor: pointer;
+            margin-left:-35px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        @using (Html.BeginForm("Login", "Account", FormMethod.Post, new { onsubmit = "return validateForm()" }))
+        {
+
+            <h2>Login</h2>
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div>
+                <label for="Username" style="font-weight: bold; margin-bottom: 10px; display: block;">Username</label>
+                @Html.TextBoxFor(m => m.Username, new { style = "width: 100%; padding: 10px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 4px;" })
+                @Html.ValidationMessageFor(m => m.Username, "", new { @class = "text-danger" })
+            </div>
+            <div class="password-container">
+                <label for="Password" style="font-weight: bold; margin-bottom: 10px; display: block;">Password</label>
+                <input type="password" id="Password" name="Password" style="width: 100%; padding: 10px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 4px;">
+                <span class="password-toggle" onclick="togglePasswordVisibility()">&#128065;</span>
+                @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+            </div>
+            <button type="submit" style="background-color: #007bff; color: #fff; border: none; padding: 10px 20px; margin-right:50PX;     border-radius: 4px; cursor: pointer;">Login</button>
+            <button type="button" onclick="location.href='@Url.Action("ForgotPassword", "Account")'">Forgot Password</button>
+        }
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.validate/1.19.3/jquery.validate.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.validation.unobtrusive/3.2.12/jquery.validate.unobtrusive.min.js"></script>
+    <script>
+        function togglePasswordVisibility() {
+            var passwordInput = document.getElementById("Password");
+            var toggleButton = document.querySelector(".password-toggle");
+
+            if (passwordInput.type === "password") {
+                passwordInput.type = "text";
+                toggleButton.innerHTML = "&#128064;"; // Show the hide icon
+            } else {
+                passwordInput.type = "password";
+                toggleButton.innerHTML = "&#128065;"; // Show the show icon
+            }
+        }
+    </script>
+    
+    
+</body>
+</html>
